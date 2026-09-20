@@ -12,7 +12,6 @@ import subprocess
 from datetime import datetime
 
 from odoo import addons, api, exceptions, fields, models, tools
-from odoo.tools.safe_eval import safe_eval
 
 _logger = logging.getLogger(__name__)
 
@@ -119,7 +118,7 @@ class GithubRepositoryBranch(models.Model):
         source_path = (
             tools.config.get("source_code_local_path", "")
             or os.environ.get("SOURCE_CODE_LOCAL_PATH", "")
-            or ICP.get_param("github.source_code_local_path", "")
+            or ICP.get_str("github.source_code_local_path", "")
         )
 
         return source_path
@@ -173,7 +172,7 @@ class GithubRepositoryBranch(models.Model):
                 # Get GitHub token for authenticated cloning
                 token = tools.config.get("github_token") or self.env[
                     "ir.config_parameter"
-                ].sudo().get_param("github.access_token", default="")
+                ].sudo().get_str("github.access_token", default="")
 
                 # Use authenticated URL if token is available
                 clone_url = gh_repo.clone_url
@@ -348,10 +347,10 @@ class GithubRepositoryBranch(models.Model):
         return {"size": size}
 
     def _analyze_code(self):
-        partial_commit = safe_eval(
+        partial_commit = (
             self.sudo()
             .env["ir.config_parameter"]
-            .get_param("git.partial_commit_during_analysis")
+            .get_bool("git.partial_commit_during_analysis")
         )
         for branch in self:
             path = branch.local_path

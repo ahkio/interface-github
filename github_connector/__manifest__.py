@@ -7,7 +7,7 @@
 {
     "name": "Github Connector",
     "summary": "Synchronize information from Github repositories",
-    "version": "19.0.1.0.0",
+    "version": "20.0.1.0.0",
     "category": "Connector",
     "license": "AGPL-3",
     "author": "Odoo Community Association (OCA), GRAP, Akretion, Tecnativa",
@@ -19,7 +19,7 @@
     "data": [
         "security/ir_model_category.xml",
         "security/res_groups.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "data/ir_config_parameter.xml",
         "data/ir_cron.xml",
         "wizards/view_wizard_load_github_model.xml",

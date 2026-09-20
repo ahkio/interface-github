@@ -3,7 +3,6 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import base64
 import logging
 from datetime import datetime
 from urllib.request import urlopen
@@ -16,6 +15,7 @@ from github.GithubException import (
 
 from odoo import api, fields, models, tools
 from odoo.exceptions import UserError
+from odoo.tools import BinaryBytes
 
 _logger = logging.getLogger(__name__)
 
@@ -243,10 +243,8 @@ class AbstractGithubModel(models.AbstractModel):
         if child_update:
             self.full_update()
 
-    def get_base64_image_from_github(self, url):
-        max_try = int(
-            self.sudo().env["ir.config_parameter"].get_param("github.max_try")
-        )
+    def get_image_from_github(self, url):
+        max_try = self.sudo().env["ir.config_parameter"].get_int("github.max_try")
         for _i in range(max_try):
             try:
                 stream = urlopen(url, timeout=10).read()
@@ -255,7 +253,7 @@ class AbstractGithubModel(models.AbstractModel):
                 _logger.warning("URL Call Error. %s", str(err))
         else:
             raise UserError(self.env._("Maximum attempts reached."))
-        return base64.standard_b64encode(stream)
+        return BinaryBytes(stream)
 
     # Custom Private Function
     @api.model
@@ -286,7 +284,7 @@ class AbstractGithubModel(models.AbstractModel):
     def get_github_connector(self):
         token = tools.config.get("github_token") or self.env[
             "ir.config_parameter"
-        ].sudo().get_param("github.access_token", default="")
+        ].sudo().get_str("github.access_token", default="")
         if not token:
             raise UserError(
                 self.env._(

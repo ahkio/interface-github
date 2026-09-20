@@ -267,15 +267,15 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                 </a>
                                 <span class="badge">
                                     <i class="fa fa-fw fa-folder-o" />
-                                    <t t-esc="record.repository_qty.value" />
+                                    <t t-out="record.repository_qty.value" />
                                 </span>
                                 <span class="badge">
                                     <i class="fa fa-fw fa-users" />
-                                    <t t-esc="record.team_qty.value" />
+                                    <t t-out="record.team_qty.value" />
                                 </span>
                                 <span class="badge">
                                     <i class="fa fa-fw fa-user" />
-                                    <t t-esc="record.member_qty.value" />
+                                    <t t-out="record.member_qty.value" />
                                 </span>
                             </div>
                         </main>
