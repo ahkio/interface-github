@@ -3,14 +3,13 @@
 # Copyright 2024 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import base64
 import logging
 import os
 
 from docutils.core import publish_string
 
 from odoo import api, fields, models, tools
-from odoo.tools import html_sanitize
+from odoo.tools import BinaryBytes, html_sanitize
 from odoo.tools.safe_eval import safe_eval
 
 from odoo.addons.base.models.ir_module import MyWriter
@@ -469,7 +468,7 @@ class OdooModuleVersion(models.Model):
                     process = tools.image.ImageProcess(image, False)
                     process.resize(96, 96)
                     image = process.image_quality()
-                image_enc = base64.b64encode(image)
+                image_enc = BinaryBytes(image)
             except Exception:
                 _logger.warning("Unable to read or resize %s", icon_path)
             module_version.write({"image": image_enc})
@@ -479,7 +478,7 @@ class OdooModuleVersion(models.Model):
                 with open(
                     os.path.join(os.path.dirname(__file__), "../data/oca.png"), "rb"
                 ) as f:
-                    image = base64.b64encode(f.read())
+                    image = BinaryBytes(f.read())
                     module_version.write({"image": image})
             except Exception as e:
                 _logger.error("Unable to read the OCA icon image, error is %s", e)

@@ -10,7 +10,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="website">http://www.gnu.org/licenses/gpl-3.0.html</field>
         <field
             name="image"
-            type="base64"
+            type="bytes"
             file="github_connector_odoo/static/src/img/odoo_licence_gpl_3-image.png"
         />
         <field
@@ -22,7 +22,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="website">http://www.gnu.org/licenses/lgpl-3.0.html</field>
         <field
             name="image"
-            type="base64"
+            type="bytes"
             file="github_connector_odoo/static/src/img/odoo_licence_lgpl_3-image.png"
         />
         <field
@@ -34,7 +34,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="website">http://www.gnu.org/licenses/agpl-3.0.html</field>
         <field
             name="image"
-            type="base64"
+            type="bytes"
             file="github_connector_odoo/static/src/img/odoo_licence_agpl_3-image.png"
         />
         <field
