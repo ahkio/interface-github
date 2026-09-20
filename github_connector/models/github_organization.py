@@ -95,7 +95,7 @@ class GithubOrganization(models.Model):
     def get_odoo_data_from_github(self, gh_data):
         res = super().get_odoo_data_from_github(gh_data)
         if hasattr(gh_data, "avatar_url"):
-            res.update({"image": self.get_base64_image_from_github(gh_data.avatar_url)})
+            res.update({"image": self.get_image_from_github(gh_data.avatar_url)})
         return res
 
     def full_update(self):

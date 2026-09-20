@@ -9,6 +9,15 @@ from odoo.addons.base.tests.common import BaseCommon
 
 
 class TestGithubConnectorCommon(BaseCommon):
+    # Since 20.0 BaseCommon runs the tests as a restricted user holding only
+    # base.group_user. Syncing GitHub data creates contacts and writes GitHub
+    # records, so the test user needs the groups those operations require.
+    _test_user_groups = (
+        "base.group_user",
+        "base.group_partner_manager",
+        "github_connector.group_github_connector_manager",
+    )
+
     @classmethod
     def _request_handler(cls, s, r, /, **kw):
         """Don't block external requests."""
@@ -77,7 +86,7 @@ class TestGithubConnectorCommon(BaseCommon):
                 "organization_serie_id": cls.serie_13.id,
             }
         )
-        cls.env["ir.config_parameter"].set_param("github.access_token", "test")
+        cls.env["ir.config_parameter"].set_str("github.access_token", "test")
 
     @responses.activate
     def _download_and_analyze(self, repo_branch):
