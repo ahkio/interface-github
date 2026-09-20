@@ -91,9 +91,7 @@ class ResPartner(models.Model):
         res = super().get_odoo_data_from_github(gh_data)
         res.update({"name": gh_data.name or f"{gh_data.login} (Github)"})
         if hasattr(gh_data, "avatar_url"):
-            res.update(
-                {"image_1920": self.get_base64_image_from_github(gh_data.avatar_url)}
-            )
+            res.update({"image_1920": self.get_image_from_github(gh_data.avatar_url)})
         return res
 
     def find_related_github_object(self, obj_id=None):
