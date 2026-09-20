@@ -192,7 +192,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                     </span>
                                 </a>
                                 <span class="badge">
-                                    <t t-esc="record.repository_branch_id.value" />
+                                    <t t-out="record.repository_branch_id.value" />
                                 </span>
                             </div>
                         </main>

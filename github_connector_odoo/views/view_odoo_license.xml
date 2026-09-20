@@ -107,7 +107,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                     </t>
                                 </p>
                                 <span class="badge">
-                                    <t t-esc="record.module_version_qty.value" />
+                                    <t t-out="record.module_version_qty.value" />
                                 </span>
                             </div>
                         </main>
