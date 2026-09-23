@@ -68,7 +68,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                 <t t-if="record.permission.raw_value == 'undefined'">
                                     <span class="badge">
                                         <i
-                                            class="fa fa-fw fa-question"
+                                            class="oi oi-fw"
+                                            data-icon="help"
                                             aria-label="Permission"
                                             title="Permission"
                                         />
@@ -78,7 +79,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                 <t t-if="record.permission.raw_value == 'read'">
                                     <span class="badge">
                                         <i
-                                            class="fa fa-fw fa-file-o"
+                                            class="oi oi-fw"
+                                            data-icon="description"
                                             aria-label="Permission"
                                             title="Permission"
                                         />
@@ -88,7 +90,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                 <t t-if="record.permission.raw_value == 'write'">
                                     <span class="badge">
                                         <i
-                                            class="fa fa-fw fa-save"
+                                            class="oi oi-fw"
+                                            data-icon="save"
                                             aria-label="Permission"
                                             title="Permission"
                                         />
@@ -98,7 +101,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                 <t t-if="record.permission.raw_value == 'admin'">
                                     <span class="badge">
                                         <i
-                                            class="fa fa-fw fa-cog"
+                                            class="oi oi-fw"
+                                            data-icon="settings"
                                             aria-label="Permission"
                                             title="Permission"
                                         />
@@ -128,7 +132,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                 <t t-if="record.permission.raw_value == 'undefined'">
                                     <span class="badge">
                                         <i
-                                            class="fa fa-fw fa-question"
+                                            class="oi oi-fw"
+                                            data-icon="help"
                                             aria-label="Permission"
                                             title="Permission"
                                         />
@@ -138,7 +143,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                 <t t-if="record.permission.raw_value == 'read'">
                                     <span class="badge">
                                         <i
-                                            class="fa fa-fw fa-file-o"
+                                            class="oi oi-fw"
+                                            data-icon="description"
                                             aria-label="Permission"
                                             title="Permission"
                                         />
@@ -148,7 +154,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                 <t t-if="record.permission.raw_value == 'write'">
                                     <span class="badge">
                                         <i
-                                            class="fa fa-fw fa-save"
+                                            class="oi oi-fw"
+                                            data-icon="save"
                                             aria-label="Permission"
                                             title="Permission"
                                         />
@@ -158,7 +165,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                 <t t-if="record.permission.raw_value == 'admin'">
                                     <span class="badge">
                                         <i
-                                            class="fa fa-fw fa-cog"
+                                            class="oi oi-fw"
+                                            data-icon="settings"
                                             aria-label="Permission"
                                             title="Permission"
                                         />

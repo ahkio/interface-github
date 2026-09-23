@@ -47,7 +47,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                         type="object"
                         string="Members Sync."
                         class="btn btn-default"
-                        icon="fa-chevron-right"
+                        icon="chevron_forward"
                         groups="github_connector.group_github_connector_manager"
                     />
                     <button
@@ -55,7 +55,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                         type="object"
                         string="Repository Sync."
                         class="btn btn-default"
-                        icon="fa-chevron-right"
+                        icon="chevron_forward"
                         groups="github_connector.group_github_connector_manager"
                     />
                 </header>
@@ -65,7 +65,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                             type="object"
                             name="action_github_team_partner_from_team"
                             class="oe_stat_button"
-                            icon="fa-user"
+                            icon="person"
                             invisible="not partner_qty"
                         >
                             <field
@@ -78,7 +78,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                             type="object"
                             name="action_github_team_repository_from_team"
                             class="oe_stat_button"
-                            icon="fa-folder-o"
+                            icon="folder"
                             invisible="not repository_qty"
                         >
                             <field
@@ -115,7 +115,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                         type="object"
                                         string="Light Sync"
                                         class="btn btn-default"
-                                        icon="fa-angle-right"
+                                        icon="keyboard_arrow_right"
                                         groups="github_connector.group_github_connector_manager"
                                     />
                                     <button
@@ -123,7 +123,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                         type="object"
                                         string="Full Sync"
                                         class="btn btn-default"
-                                        icon="fa-angle-double-right"
+                                        icon="keyboard_double_arrow_right"
                                         groups="github_connector.group_github_connector_manager"
                                     />
                                 </group>
@@ -160,7 +160,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                 <a target="_blank" t-att-href="record.github_url.value">
                                     <span class="badge">
                                         <i
-                                            class="fa fa-fw fa-github-alt"
+                                            class="oi oi-fw"
+                                            data-icon="oi_github-alt"
                                             aria-label="Github"
                                             title="Github"
                                         />
@@ -168,7 +169,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                 </a>
                                 <span class="badge">
                                     <i
-                                        class="fa fa-fw fa-user"
+                                        class="oi oi-fw"
+                                        data-icon="person"
                                         aria-label="Members"
                                         title="Members"
                                     />
@@ -176,7 +178,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                 </span>
                                 <span class="badge">
                                     <i
-                                        class="fa fa-fw fa-folder-o"
+                                        class="oi oi-fw"
+                                        data-icon="folder"
                                         aria-label="Repositories"
                                         title="Repositories"
                                     />

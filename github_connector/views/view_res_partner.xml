@@ -62,7 +62,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                     type="object"
                     name="action_github_organization"
                     class="oe_stat_button"
-                    icon="fa-institution"
+                    icon="account_balance"
                     invisible="not github_name or is_company"
                 >
                     <field
@@ -75,7 +75,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                     type="object"
                     name="action_github_team_partner_from_partner"
                     class="oe_stat_button"
-                    icon="fa-users"
+                    icon="group"
                     invisible="not github_name or is_company"
                 >
                     <field name="github_team_qty" string="Teams" widget="statinfo" />
@@ -97,7 +97,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                             type="object"
                             string="Light Sync"
                             class="btn btn-default"
-                            icon="fa-angle-right"
+                            icon="keyboard_arrow_right"
                             groups="github_connector.group_github_connector_manager"
                         />
                         <button
@@ -105,7 +105,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                             type="object"
                             string="Full Sync"
                             class="btn btn-default"
-                            icon="fa-angle-double-right"
+                            icon="keyboard_double_arrow_right"
                             groups="github_connector.group_github_connector_manager"
                         />
                     </group>

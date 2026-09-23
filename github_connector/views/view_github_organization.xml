@@ -39,7 +39,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                         type="object"
                         string="Members Sync."
                         class="btn btn-default"
-                        icon="fa-chevron-right"
+                        icon="chevron_forward"
                         groups="github_connector.group_github_connector_manager"
                     />
                     <button
@@ -47,7 +47,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                         type="object"
                         string="Repositories Sync."
                         class="btn btn-default"
-                        icon="fa-chevron-right"
+                        icon="chevron_forward"
                         groups="github_connector.group_github_connector_manager"
                     />
                     <button
@@ -55,7 +55,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                         type="object"
                         string="Teams Sync."
                         class="btn btn-default"
-                        icon="fa-chevron-right"
+                        icon="chevron_forward"
                         groups="github_connector.group_github_connector_manager"
                     />
                 </header>
@@ -65,7 +65,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                             type="object"
                             name="action_github_repository"
                             class="oe_stat_button"
-                            icon="fa-folder-o"
+                            icon="folder"
                             invisible="not repository_qty"
                         >
                             <div class="o_stat_info">
@@ -84,7 +84,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                             type="object"
                             name="action_github_team"
                             class="oe_stat_button"
-                            icon="fa-users"
+                            icon="group"
                             invisible="not team_qty"
                         >
                             <div class="o_stat_info">
@@ -103,7 +103,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                             type="object"
                             name="action_res_partner"
                             class="oe_stat_button"
-                            icon="fa-user"
+                            icon="person"
                             invisible="not member_qty"
                         >
                             <div class="o_stat_info">
@@ -180,7 +180,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                         type="object"
                                         string="Light Sync"
                                         class="btn btn-default"
-                                        icon="fa-angle-right"
+                                        icon="keyboard_arrow_right"
                                         groups="github_connector.group_github_connector_manager"
                                     />
                                     <button
@@ -188,7 +188,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                         type="object"
                                         string="Full Sync"
                                         class="btn btn-default"
-                                        icon="fa-angle-double-right"
+                                        icon="keyboard_double_arrow_right"
                                         groups="github_connector.group_github_connector_manager"
                                     />
                                 </group>
@@ -260,21 +260,22 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                 <a target="_blank" t-att-href="record.github_url.value">
                                     <span class="badge">
                                         <i
-                                            class="fa fa-fw fa-github-alt"
+                                            class="oi oi-fw"
+                                            data-icon="oi_github-alt"
                                             title="Github"
                                         />
                                     </span>
                                 </a>
                                 <span class="badge">
-                                    <i class="fa fa-fw fa-folder-o" />
+                                    <i class="oi oi-fw" data-icon="folder" />
                                     <t t-out="record.repository_qty.value" />
                                 </span>
                                 <span class="badge">
-                                    <i class="fa fa-fw fa-users" />
+                                    <i class="oi oi-fw" data-icon="group" />
                                     <t t-out="record.team_qty.value" />
                                 </span>
                                 <span class="badge">
-                                    <i class="fa fa-fw fa-user" />
+                                    <i class="oi oi-fw" data-icon="person" />
                                     <t t-out="record.member_qty.value" />
                                 </span>
                             </div>

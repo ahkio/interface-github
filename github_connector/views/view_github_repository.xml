@@ -43,7 +43,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                         type="object"
                         string="Branches Sync."
                         class="btn btn-default"
-                        icon="fa-chevron-right"
+                        icon="chevron_forward"
                         groups="github_connector.group_github_connector_manager"
                     />
                 </header>
@@ -52,7 +52,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                         <button
                             type="object"
                             class="oe_stat_button"
-                            icon="fa-code-fork"
+                            icon="fork_right"
                             name="action_github_repository_branch"
                             invisible="not repository_branch_qty"
                         >
@@ -74,7 +74,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                         <button
                             type="object"
                             class="oe_stat_button"
-                            icon="fa-users"
+                            icon="group"
                             name="action_github_team_repository_from_repository"
                             invisible="not team_qty"
                         >
@@ -121,7 +121,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                         type="object"
                                         string="Light Sync"
                                         class="btn btn-light"
-                                        icon="fa-angle-right"
+                                        icon="keyboard_arrow_right"
                                         groups="github_connector.group_github_connector_manager"
                                     />
                                     <button
@@ -129,7 +129,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                         type="object"
                                         string="Full Sync"
                                         class="btn btn-light"
-                                        icon="fa-angle-double-right"
+                                        icon="keyboard_double_arrow_right"
                                         groups="github_connector.group_github_connector_manager"
                                     />
                                 </group>
@@ -175,12 +175,12 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                     <br />
                                 </p>
                                 <span class="badge">
-                                    <i class="fa fa-fw fa-code-fork" title="Branches" />
+                                    <i class="oi oi-fw" data-icon="fork_right" title="Branches" />
                                     <field name="repository_branch_qty" />
                                 </span>
                                 <t t-if="record.is_ignored.raw_value">
                                     <span class="badge">
-                                        <i class="fa fa-fw fa-ban" title="Ignored" />
+                                        <i class="oi oi-fw" data-icon="block" title="Ignored" />
                                     </span>
                                 </t>
                             </div>

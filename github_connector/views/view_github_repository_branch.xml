@@ -70,7 +70,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                     type="object"
                     invisible="state!='to_download'"
                     string="Download Source Code"
-                    icon="fa-download"
+                    icon="download"
                     groups="github_connector.group_github_connector_manager"
                 />
                 <button
@@ -78,7 +78,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                     type="object"
                     invisible="state not in ('to_analyze','analyzed')"
                     string="Update Source Code"
-                    icon="fa-download"
+                    icon="download"
                     groups="github_connector.group_github_connector_manager"
                 />
                 <button
@@ -86,7 +86,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                     type="object"
                     invisible="state!='to_analyze'"
                     string="Analyze Source Code"
-                    icon="fa-refresh"
+                    icon="refresh"
                     groups="github_connector.group_github_connector_manager"
                 />
                 <button
@@ -94,7 +94,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                     type="object"
                     invisible="state!='analyzed'"
                     string="Update Source Code Analyzis"
-                    icon="fa-refresh"
+                    icon="refresh"
                     groups="github_connector.group_github_connector_manager"
                 />
                 <field name="state" />
@@ -112,7 +112,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                         invisible="state!='to_download'"
                         string="Download Source Code"
                         class="btn btn-primary"
-                        icon="fa-download"
+                        icon="download"
                         groups="github_connector.group_github_connector_manager"
                     />
                     <button
@@ -121,7 +121,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                         invisible="state not in ('to_analyze','analyzed')"
                         string="Update Source Code"
                         class="btn btn-default"
-                        icon="fa-download"
+                        icon="download"
                         groups="github_connector.group_github_connector_manager"
                     />
                     <button
@@ -130,7 +130,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                         invisible="state!='to_analyze'"
                         string="Analyze Source Code"
                         class="btn btn-primary"
-                        icon="fa-refresh"
+                        icon="refresh"
                         groups="github_connector.group_github_connector_manager"
                     />
                     <button
@@ -139,7 +139,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                         invisible="state!='analyzed'"
                         string="Update Source Code Analyzis"
                         class="btn btn-default"
-                        icon="fa-refresh"
+                        icon="refresh"
                         groups="github_connector.group_github_connector_manager"
                     />
                     <field name="state" widget="statusbar" />
@@ -235,7 +235,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                     >
                                         <span class="badge">
                                             <i
-                                                class="fa fa-fw fa-github-alt"
+                                                class="oi oi-fw"
+                                                data-icon="oi_github-alt"
                                                 title="Github"
                                             />
                                         </span>
