@@ -75,7 +75,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                 </h3>
                                 <span class="badge">
                                     <i
-                                        t-attf-class="fa fa-fw #{record.role.raw_value == 'maintainer' ? 'fa-cog' : 'fa-user'}"
+                                        class="oi oi-fw"
+                                        t-attf-data-icon="#{record.role.raw_value == 'maintainer' ? 'settings' : 'person'}"
                                         aria-label="Role"
                                         title="Role"
                                     />
@@ -114,7 +115,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                 </h3>
                                 <span class="badge">
                                     <i
-                                        t-attf-class="fa fa-fw #{record.role.raw_value == 'maintainer' ? 'fa-cog' : 'fa-user'}"
+                                        class="oi oi-fw"
+                                        t-attf-data-icon="#{record.role.raw_value == 'maintainer' ? 'settings' : 'person'}"
                                         aria-label="Role"
                                         title="Role"
                                     />

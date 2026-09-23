@@ -32,7 +32,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                             type="object"
                             name="action_open"
                             class="oe_stat_button"
-                            icon="fa-cubes"
+                            icon="inventory_2"
                             invisible="not module_qty"
                             context="{'xml_id': 'action_odoo_module', 'field_name': 'author_ids'}"
                         >

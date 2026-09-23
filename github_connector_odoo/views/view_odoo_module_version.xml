@@ -186,7 +186,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                 >
                                     <span class="badge">
                                         <i
-                                            class="fa fa-fw fa-github-alt"
+                                            class="oi oi-fw"
+                                            data-icon="oi_github-alt"
                                             title="Github"
                                         />
                                     </span>

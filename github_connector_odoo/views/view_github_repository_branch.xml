@@ -28,7 +28,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                 <button
                     type="object"
                     class="oe_stat_button"
-                    icon="fa-cube"
+                    icon="deployed_code"
                     name="action_open"
                     invisible="not module_version_qty"
                     context="{'xml_id': 'action_odoo_module_version', 'field_name': 'repository_branch_id'}"
@@ -79,7 +79,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
             </field>
             <xpath expr="//div[hasclass('branch_tag_list')]" position="inside">
                 <span class="badge" title="Number of modules"><i
-                    class="fa fa-fw fa-cube"
+                    class="oi oi-fw"
+                    data-icon="deployed_code"
                 /><field name="module_version_qty" /> Modules</span>
             </xpath>
         </field>
