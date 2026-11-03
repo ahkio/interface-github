@@ -301,9 +301,10 @@ class GithubRepositoryBranch(models.Model):
                 "Error when cloning the branch %(branch)s into %(path)s:\n%(error)s",
                 {"branch": self.name, "path": self.local_path, "error": e},
             )
-            # A leftover folder would send the next run to the update path
+            # A leftover folder would send the next run to the update path,
+            # so a failure to remove it is raised too.
             if os.path.exists(self.local_path):
-                shutil.rmtree(self.local_path, ignore_errors=True)
+                shutil.rmtree(self.local_path)
             raise
         self.write({"last_download_date": datetime.today(), "state": "to_analyze"})
 

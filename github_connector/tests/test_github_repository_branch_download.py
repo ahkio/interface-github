@@ -145,6 +145,22 @@ class TestGithubRepositoryBranchDownload(TestGithubConnectorCommon):
         self.assertFalse(os.path.exists(self.local_path))
         self.assertEqual(self.branch.state, "to_download")
 
+    def test_clone_failure_raises_when_folder_cannot_be_removed(self):
+        def failing_clone(command):
+            os.makedirs(command[-1])
+            return 128, "", "fatal: The requested URL returned error: 401"
+
+        with (
+            self._fake_git({"clone": failing_clone}),
+            patch(
+                f"{BRANCH_MODULE}.shutil.rmtree",
+                side_effect=PermissionError("Permission denied"),
+            ),
+            self.assertLogs(BRANCH_MODULE, "ERROR"),
+            self.assertRaises(PermissionError),
+        ):
+            self.branch._download_code()
+
     def test_pull_removes_token_from_remote_url(self):
         self._make_repository(TOKEN_URL)
         self.branch.state = "analyzed"
