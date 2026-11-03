@@ -1,5 +1,7 @@
 # Copyright 2020-2022 Tecnativa - Víctor Martínez
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+from unittest.mock import patch
+
 import requests
 import responses
 
@@ -91,5 +93,8 @@ class TestGithubConnectorCommon(BaseCommon):
     @responses.activate
     def _download_and_analyze(self, repo_branch):
         if repo_branch.state == "to_download":
-            repo_branch._download_code()
+            # The dummy API token would be sent as an Authorization header and
+            # GitHub rejects bad credentials even for public repositories.
+            with patch.object(type(repo_branch), "_get_github_token", return_value=""):
+                repo_branch._download_code()
         repo_branch.analyze_code_one()
