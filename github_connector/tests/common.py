@@ -1,5 +1,9 @@
 # Copyright 2020-2022 Tecnativa - Víctor Martínez
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+import shutil
+import tempfile
+from unittest.mock import patch
+
 import requests
 import responses
 
@@ -87,9 +91,19 @@ class TestGithubConnectorCommon(BaseCommon):
             }
         )
         cls.env["ir.config_parameter"].set_str("github.access_token", "test")
+        # Without a source path the branches would be cloned relative to the
+        # working directory of the server, which need not be writable.
+        source_path = tempfile.mkdtemp()
+        cls.addClassCleanup(shutil.rmtree, source_path, True)
+        cls.env["ir.config_parameter"].set_str(
+            "github.source_code_local_path", source_path
+        )
 
     @responses.activate
     def _download_and_analyze(self, repo_branch):
         if repo_branch.state == "to_download":
-            repo_branch._download_code()
+            # The dummy API token would be sent as an Authorization header and
+            # GitHub rejects bad credentials even for public repositories.
+            with patch.object(type(repo_branch), "_get_github_token", return_value=""):
+                repo_branch._download_code()
         repo_branch.analyze_code_one()

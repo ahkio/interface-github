@@ -4,6 +4,7 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import base64
 import json
 import logging
 import os
@@ -152,95 +153,160 @@ class GithubRepositoryBranch(models.Model):
             branch = self.create({"name": name, "repository_id": repository_id})
         return branch
 
+    @api.model
+    def _get_git_basic_credentials(self, token):
+        return base64.b64encode(f"x-access-token:{token}".encode()).decode()
+
+    @api.model
+    def _get_git_env(self, token):
+        """Environment for git commands talking to GitHub.
+
+        The token goes in an Authorization header, never in the remote URL:
+        newer libcurl versions report the effective URL without credentials,
+        git takes that for a redirect and drops credentials embedded in the
+        URL, so the next request fails with 401. The header is passed as
+        command-line config through GIT_CONFIG_* (same as git -c) so that it
+        is neither stored in .git/config nor visible in the process list.
+        """
+        env = os.environ.copy()
+        env["GIT_TERMINAL_PROMPT"] = "0"  # Disable credential prompts
+        env["GIT_ASKPASS"] = "echo"  # Return empty string for password prompts
+        if token:
+            credentials = self._get_git_basic_credentials(token)
+            env["GIT_CONFIG_COUNT"] = "1"
+            env["GIT_CONFIG_KEY_0"] = "http.https://github.com/.extraHeader"
+            env["GIT_CONFIG_VALUE_0"] = f"Authorization: Basic {credentials}"
+        return env
+
+    @api.model
+    def _mask_git_secrets(self, text, token):
+        if token and text:
+            text = text.replace(token, "***").replace(
+                self._get_git_basic_credentials(token), "***"
+            )
+        return text
+
+    @api.model
+    def _run_git(self, args, token, cwd=None):
+        """Run a git command and raise a UserError holding git's output with
+        the token masked when it fails."""
+        try:
+            result = subprocess.run(
+                ["git", *args],
+                capture_output=True,
+                text=True,
+                timeout=300,  # 5 minute timeout
+                env=self._get_git_env(token),
+                stdin=subprocess.DEVNULL,  # Don't wait for input
+                cwd=cwd,
+            )
+        except subprocess.TimeoutExpired:
+            raise exceptions.UserError(
+                self.env._("git %s timed out.", args[0])
+            ) from None
+        if result.returncode:
+            output = self._mask_git_secrets(
+                (result.stderr or result.stdout or "").strip(), token
+            )
+            raise exceptions.UserError(
+                self.env._(
+                    "git %(command)s failed with exit code %(code)s:\n%(output)s",
+                    command=args[0],
+                    code=result.returncode,
+                    output=output,
+                )
+            )
+        return result
+
     def _download_code(self):
+        token = self._get_github_token()
         for branch in self:
             repository = branch.repository_id
             gh_repo = repository.find_related_github_object()
             if not os.path.exists(branch.local_path):
-                # Cloning the repository
-                try:
-                    os.makedirs(branch.local_path)
-                except Exception:
+                branch._clone_code(gh_repo.clone_url, token)
+                continue
+            # Update repository
+            try:
+                if not os.path.isdir(os.path.join(branch.local_path, ".git")):
+                    # Without this check git would act on whatever repository
+                    # contains the folder.
                     raise exceptions.UserError(
-                        self.env._(
-                            "Error when trying to create the folder %s\n"
-                            " Please check Odoo Access Rights.",
-                            branch.local_path,
-                        )
-                    ) from None
-
-                # Get GitHub token for authenticated cloning
-                token = tools.config.get("github_token") or self.env[
-                    "ir.config_parameter"
-                ].sudo().get_str("github.access_token", default="")
-
-                # Use authenticated URL if token is available
-                clone_url = gh_repo.clone_url
-                if token and clone_url.startswith("https://github.com/"):
-                    clone_url = clone_url.replace(
-                        "https://github.com/", f"https://{token}@github.com/"
+                        self.env._("The folder is not a git repository.")
                     )
+                # Remove a token embedded in the remote URL by earlier versions
+                self._run_git(
+                    ["remote", "set-url", "origin", gh_repo.clone_url],
+                    token,
+                    cwd=branch.local_path,
+                )
+                res = self._run_git(
+                    ["pull", "origin", branch.name], token, cwd=branch.local_path
+                )
+            except exceptions.UserError as e:
+                # Trying to clean the local folder
+                _logger.warning(
+                    "Error when updating the branch %(branch)s in the local "
+                    "folder %(path)s:\n%(error)s\nDeleting the local folder and "
+                    "trying again.",
+                    {"branch": branch.name, "path": branch.local_path, "error": e},
+                )
+                try:
+                    shutil.rmtree(branch.local_path)
+                except Exception:
+                    _logger.error(
+                        "Error deleting the branch %s in the local folder "
+                        "%s. You need to check manually what is happening "
+                        "there.",
+                        branch.name,
+                        branch.local_path,
+                    )
+                    raise
+                branch._clone_code(gh_repo.clone_url, token)
+                continue
+            vals = {"last_download_date": datetime.today()}
+            if "up to date" not in res.stdout:
+                vals["state"] = "to_analyze"
+            branch.write(vals)
+        return True
 
-                # Build git clone command (single branch for disk efficiency)
-                command = [
-                    "git",
+    def _clone_code(self, clone_url, token):
+        self.ensure_one()
+        parent_path = os.path.dirname(self.local_path)
+        try:
+            os.makedirs(parent_path, exist_ok=True)
+        except Exception:
+            raise exceptions.UserError(
+                self.env._(
+                    "Error when trying to create the folder %s\n"
+                    " Please check Odoo Access Rights.",
+                    parent_path,
+                )
+            ) from None
+        try:
+            # Single branch for disk efficiency
+            self._run_git(
+                [
                     "clone",
                     "-b",
-                    branch.name,
+                    self.name,
                     "--single-branch",
                     clone_url,
-                    branch.local_path,
-                ]
-
-                # Set environment to disable git credential prompts
-                env = os.environ.copy()
-                env["GIT_TERMINAL_PROMPT"] = "0"  # Disable credential prompts
-                env["GIT_ASKPASS"] = "echo"  # Return empty string for password prompts
-
-                subprocess.run(
-                    command,
-                    capture_output=True,
-                    text=True,
-                    timeout=300,  # 5 minute timeout
-                    check=True,
-                    env=env,
-                    stdin=subprocess.DEVNULL,  # Don't wait for input
-                )
-                branch.write(
-                    {"last_download_date": datetime.today(), "state": "to_analyze"}
-                )
-            else:
-                # Update repository
-                try:
-                    res = subprocess.check_output(
-                        ["git", "pull", "origin", branch.name], cwd=branch.local_path
-                    )
-                    vals = {"last_download_date": datetime.today()}
-                    if b"up to date" not in res:
-                        vals["state"] = "to_analyze"
-                    branch.write(vals)
-                except Exception:
-                    # Trying to clean the local folder
-                    _logger.warning(
-                        self.env._(
-                            "Error when updating the branch %(branch)s in the local "
-                            "folder %(path)s.\nDeleting the local folder and trying"
-                            " again.",
-                            branch=branch.name,
-                            path=branch.local_path,
-                        )
-                    )
-                    try:
-                        shutil.rmtree(branch.local_path)
-                    except Exception:
-                        _logger.error(
-                            "Error deleting the branch %s in the local folder "
-                            "%s. You need to check manually what is happening "
-                            "there."
-                        )
-                    else:
-                        branch._download_code()
-        return True
+                    self.local_path,
+                ],
+                token,
+            )
+        except exceptions.UserError as e:
+            _logger.error(
+                "Error when cloning the branch %(branch)s into %(path)s:\n%(error)s",
+                {"branch": self.name, "path": self.local_path, "error": e},
+            )
+            # A leftover folder would send the next run to the update path,
+            # so a failure to remove it is raised too.
+            if os.path.exists(self.local_path):
+                shutil.rmtree(self.local_path)
+            raise
+        self.write({"last_download_date": datetime.today(), "state": "to_analyze"})
 
     def _get_analyzable_files(self, existing_folder):
         res = []

@@ -281,10 +281,13 @@ class AbstractGithubModel(models.AbstractModel):
             if to_write:
                 item.write(to_write)
 
-    def get_github_connector(self):
-        token = tools.config.get("github_token") or self.env[
+    def _get_github_token(self):
+        return tools.config.get("github_token") or self.env[
             "ir.config_parameter"
         ].sudo().get_str("github.access_token", default="")
+
+    def get_github_connector(self):
+        token = self._get_github_token()
         if not token:
             raise UserError(
                 self.env._(
