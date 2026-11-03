@@ -153,11 +153,6 @@ class GithubRepositoryBranch(models.Model):
             branch = self.create({"name": name, "repository_id": repository_id})
         return branch
 
-    def _get_github_token(self):
-        return tools.config.get("github_token") or self.env[
-            "ir.config_parameter"
-        ].sudo().get_str("github.access_token", default="")
-
     @api.model
     def _get_git_basic_credentials(self, token):
         return base64.b64encode(f"x-access-token:{token}".encode()).decode()
